@@ -92,6 +92,7 @@ const projects = ref([
         techs: ['iconPython', 'iconSelenium'],
         color: '#68a063',
         category: 'Backend',
+        githubRepositorie: "https://github.com/SergioAndresG/Inscritos-AgenciaPublicadeEmpleo-SENA"
     },
     {
         id: 2,
@@ -101,6 +102,8 @@ const projects = ref([
         techs: ['iconPython', 'iconFatApi', 'iconVueJs', 'iconMySQL', 'iconTypeScript'],
         color: '#68a063',
         category: 'Full Stack',
+        githubRepositorie: "https://github.com/SergioAndresG/ObtenerEmpresas-AgenciaPublicaDeEmpleo-SENA"
+
     },
     {
       id: 3,
@@ -110,6 +113,8 @@ const projects = ref([
       techs: ['iconPython', 'iconFatApi', 'iconVueJs', 'iconMySQL', 'iconDocker', 'iconTypeScript'],
       color: '#68a063',
       category: 'Full Stack',
+      githubRepositorie: "https://github.com/SergioAndresG/GestorF-165"
+
     },
     {
       id: 4,
@@ -119,6 +124,8 @@ const projects = ref([
       techs: ['iconPython', 'iconSelenium'],
       color: '#68a063',
       category: 'Backend',
+      githubRepositorie: "https://github.com/SergioAndresG/CoffeBike"
+
     }
 ]);
 </script>
@@ -160,11 +167,25 @@ const projects = ref([
                           class="tech-icon">
                     </div>
                </div> 
-                  <div class="button-wrapper">
-                    <button class="buttom-modal" @click="openModal(project)">
-                      Ver Detalles
-                    </button>
-                  </div>      
+                <div class="button-wrapper">
+                  <a
+                    v-if="project.githubRepositorie"
+                    :href="project.githubRepositorie"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="buttom-modal"
+                  >
+                    Ver en GitHub
+                  </a>
+
+                  <button
+                    v-else
+                    class="buttom-modal disabled"
+                    disabled
+                  >
+                    Código privado
+                  </button>
+                </div>   
               </div>
             </div>
         </div>
@@ -418,7 +439,7 @@ const projects = ref([
   animation: jello-horizontal 0.9s both;
 }
 .buttom-modal::before {
-  width: 70%;
+  width: 65%;
   height: 2px;
   position: absolute;
   background-color: rgba(250, 250, 250, 0.678);
