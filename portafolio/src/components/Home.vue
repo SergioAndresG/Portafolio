@@ -63,6 +63,7 @@
   align-items: flex-start;
   min-width: 0;
   position: relative;
+  margin-top: 3.5%;
 }
 
 /* === NOMBRE OUTLINE === */
