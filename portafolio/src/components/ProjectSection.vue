@@ -399,12 +399,14 @@ const projects = ref([
   bottom: 0; 
   left: 50%;
   position: absolute;
-  width: 150px;
-  height: 50px;
+  width: 115px;
+  height: 20px;
   padding:  0.875rem 1.5rem;
   border: none;
   border-radius: 10rem;
   font-weight: bold;
+  font-size: clamp(0.5rem, 0.9rem, 3rem);
+  text-decoration: none;
   border: none;
   background-color: #44a2ff;
   color: white;
@@ -439,7 +441,7 @@ const projects = ref([
   animation: jello-horizontal 0.9s both;
 }
 .buttom-modal::before {
-  width: 65%;
+  width: 63%;
   height: 2px;
   position: absolute;
   background-color: rgba(250, 250, 250, 0.678);
