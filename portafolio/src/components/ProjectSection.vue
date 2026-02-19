@@ -1,28 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import CardMoreInfoProyects from './Cards-More-Info/CardMoreInfoProyects.vue'
 
 const svgReady = ref(false)
 const lineWidth = ref(0)
 const ProjectVisible = ref(false)
-
-// Variable para controlar si el modal está visible o no
-const isModalOpen = ref(false); 
-
-// Variable para almacenar el objeto completo del proyecto seleccionado
-const activeProject = ref(null); 
-
-// Función para abrir el modal
-const openModal = (project) => {
-    activeProject.value = project;
-    isModalOpen.value = true;
-};
-
-// Función para cerrar el modal
-const closeModal = () => {
-    isModalOpen.value = false;
-    activeProject.value = null;
-};
 
 // Función para manejar el scroll y animar la línea
 const handleScroll = () => {
@@ -190,11 +171,6 @@ const projects = ref([
             </div>
         </div>
     </section>
-    <CardMoreInfoProyects 
-        :show="isModalOpen" 
-        :project="activeProject" 
-        @close="closeModal"
-    />
 </template>
 
 <style scoped>
