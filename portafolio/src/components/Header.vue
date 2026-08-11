@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 
 // Estado para controlar si el menú está abierto o cerrado
 const isMenuOpen = ref(false);
+
+// Evita que el scroll del menú móvil se propague a la página de fondo
+watch(isMenuOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : ''
+})
 
 // Estado para detectar el scroll
 const scroll = ref(false)
