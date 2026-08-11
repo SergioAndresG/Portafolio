@@ -64,16 +64,46 @@ const techs = ref([
     color: '#61dafb'
   },
   {
+    name: 'Nuxt',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nuxtjs/nuxtjs-original.svg',
+    category: 'Frontend',
+    color: '#00dc82'
+  },
+  {
+    name: 'Tailwind',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
+    category: 'Frontend',
+    color: '#38bdf8'
+  },
+  {
     name: 'MySQL',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg',
     category: 'Database',
     color: '#2496ed'
   },
   {
+    name: 'PostgreSQL',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
+    category: 'Database',
+    color: '#336791'
+  },
+  {
     name: 'Git',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg',
     category: 'Tools',
     color: '#f05032'
+  },
+  {
+    name: 'GitLab',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gitlab/gitlab-original.svg',
+    category: 'Tools',
+    color: '#fc6d26'
+  },
+  {
+    name: 'GitLab CI/CD',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gitlab/gitlab-original.svg',
+    category: 'Tools',
+    color: '#fc6d26'
   },
   {
     name: 'GitHub',
@@ -195,8 +225,8 @@ onMounted(() => {
                 class="tech-icon" 
                 :src="tech.icon" 
                 :alt="tech.name"
-                :style="{ 
-                  filter: tech.name === 'GitHub' ? 'invert(1) brightness(2)' : 'none' 
+                :style="{
+                  filter: ['GitHub', 'Make'].includes(tech.name) ? 'invert(1) brightness(2)' : 'none'
                 }"
               />
               <h3 class="tech-name">{{ tech.name }}</h3>
