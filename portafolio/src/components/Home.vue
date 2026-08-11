@@ -313,6 +313,7 @@
 @media (max-width: 992px) {
   .hero-container {
     flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     margin-top: 4rem;
     gap: 3rem;
@@ -368,8 +369,8 @@
   }
   
   .nombre-outline-svg text {
-    font-size: 80px;
-    stroke-width: 2;
+    font-size: 92px;
+    stroke-width: 3.5;
   }
   
   .nombre-solido {
@@ -401,7 +402,8 @@
   }
   
   .nombre-outline-svg text {
-    font-size: 70px;
+    font-size: 82px;
+    stroke-width: 4;
     letter-spacing: -3px;
   }
   
@@ -435,7 +437,8 @@
 /* === RESPONSIVE - MÓVILES PEQUEÑOS === */
 @media (max-width: 400px) {
   .nombre-outline-svg text {
-    font-size: 60px;
+    font-size: 72px;
+    stroke-width: 4.5;
   }
   
   .nombre-solido {
