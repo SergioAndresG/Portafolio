@@ -317,6 +317,10 @@
     align-items: center;
     margin-top: 4rem;
     gap: 3rem;
+    /* En columna el contenido apilado no necesita ocupar casi toda la altura
+       del viewport como en la fila de escritorio; forzarlo dejaba espacio
+       muerto entre el texto y la imagen. */
+    min-height: auto;
     }
   
   .texto-container {
