@@ -25,7 +25,9 @@ const projectsIcons = ref({
     iconDocker: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
     iconVite: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg',
     iconSelenium: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg',
-    iconTypeScript: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg'
+    iconTypeScript: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
+    iconTailwind: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
+    iconNuxt: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nuxtjs/nuxtjs-original.svg'
 });
 
 const projects = ref([
@@ -71,6 +73,17 @@ const projects = ref([
       category: 'Backend',
       githubRepositorie: "https://github.com/SergioAndresG/CoffeBike"
 
+    },
+    {
+      id: 5,
+      title: 'Mi Ser\nTienda de Vinos Artesanales',
+      description: 'Catálogo web para "Mi Ser", marca de vinos artesanales elaborados con frutas colombianas en distintos sabores, con pedidos gestionados por WhatsApp.',
+      icon: 'https://i.ibb.co/S4KFvy2K/Captura-de-pantalla-2026-08-11-163614.png"',
+      techs: ['iconVueJs', 'iconNuxt', 'iconTailwind'],
+      color: '#68a063',
+      category: 'Full Stack',
+      githubRepositorie: "",
+      status: 'in-progress'
     }
 ]);
 </script>
@@ -96,9 +109,10 @@ const projects = ref([
               <div v-for="project in projects" 
               :key="project.id" 
               class="project-wrapper">
-                <div  class="project-card">
+                <div  class="project-card" :class="{ 'in-progress': project.status === 'in-progress' }">
                     <h3 class="project-title" :style="{ 'white-space': 'pre-wrap' }">{{ project.title }}</h3>
                     <div class="project-icon">
+                        <span v-if="project.status === 'in-progress'" class="status-badge">En progreso</span>
                         <img :src="project.icon" :alt="project.title" />
                     </div>
                     <p class="project-description">{{ project.description }}</p>
@@ -124,6 +138,14 @@ const projects = ref([
                   </a>
 
                   <button
+                    v-else-if="project.status === 'in-progress'"
+                    class="buttom-modal disabled"
+                    disabled
+                  >
+                    Repositorio pronto
+                  </button>
+
+                  <button
                     v-else
                     class="buttom-modal disabled"
                     disabled
@@ -138,14 +160,6 @@ const projects = ref([
 </template>
 
 <style scoped>
-.linea-superior {
-  width: 200px;
-  height: 2px;
-  background-color: #fefff04d;
-  border: none;
-  margin: 17px auto 0 2rem;
-  transition: width 0.3s ease;
-}
 .linea-container {
   display: flex;
   justify-content: center;
@@ -227,6 +241,35 @@ const projects = ref([
   transform: scale(1);
   filter: brightness(0.85) contrast(1.05);
 }
+.status-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(217, 119, 6, 0.9);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 10rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
 .project-wrapper {
   display: flex;
   flex-direction: column;
@@ -268,6 +311,9 @@ const projects = ref([
 }
 .project-card:hover .project-icon::before {
   opacity: 1;
+}
+.project-card.in-progress .project-icon::before {
+  background: linear-gradient(135deg, #f59e0b, #f97316) border-box;
 }
 .project-card {
   position: relative;
@@ -341,11 +387,12 @@ const projects = ref([
   box-shadow: 0 8px 16px rgba(68, 162, 255, 0.3);
 }
 .buttom-modal{
-  bottom: 0; 
+  bottom: 0;
   left: 50%;
   position: absolute;
-  width: 115px;
-  height: 20px;
+  width: max-content;
+  min-width: 115px;
+  white-space: nowrap;
   padding:  0.875rem 1.5rem;
   border: none;
   border-radius: 10rem;
