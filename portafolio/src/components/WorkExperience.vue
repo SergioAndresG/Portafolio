@@ -74,6 +74,16 @@ const experiences = ref([
   },
 ])
 
+// Colapsadas por defecto para reducir el scroll del timeline; la experiencia
+// actual ("Actualidad") arranca expandida por ser la más relevante.
+const expandedItems = ref(
+  Object.fromEntries(experiences.value.map((exp, i) => [i, isCurrent(exp.period)]))
+)
+
+const toggleExpand = (index) => {
+  expandedItems.value[index] = !expandedItems.value[index]
+}
+
 const handleScroll = () => {
   const windowHeight = window.innerHeight
 
@@ -182,20 +192,34 @@ onUnmounted(() => {
 
               <p class="job-description">{{ exp.description }}</p>
 
-              <ul class="achievements" v-if="exp.achievements">
-                <li v-for="achievement in exp.achievements" :key="achievement">
-                  {{ achievement }}
-                </li>
-              </ul>
+              <hr class="details-separator">
 
-              <div class="tech-stack">
-                <span 
-                  v-for="tech in exp.technologies" 
-                  :key="tech"
-                  class="tech-badge"
-                >
-                  {{ tech }}
-                </span>
+              <button
+                type="button"
+                class="toggle-details-btn"
+                :aria-expanded="!!expandedItems[index]"
+                @click="toggleExpand(index)"
+              >
+                {{ expandedItems[index] ? 'Ver menos' : 'Ver más detalles' }}
+                <span class="chevron" :class="{ rotated: expandedItems[index] }">⌄</span>
+              </button>
+
+              <div class="card-details" :class="{ expanded: expandedItems[index] }">
+                <ul class="achievements" v-if="exp.achievements">
+                  <li v-for="achievement in exp.achievements" :key="achievement">
+                    {{ achievement }}
+                  </li>
+                </ul>
+
+                <div class="tech-stack">
+                  <span
+                    v-for="tech in exp.technologies"
+                    :key="tech"
+                    class="tech-badge"
+                  >
+                    {{ tech }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -518,6 +542,7 @@ onUnmounted(() => {
   background: linear-gradient(135deg, rgba(68, 162, 255, 0.05), transparent);
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 .experience-card:hover {
   border-color: #64748b;
@@ -593,6 +618,71 @@ onUnmounted(() => {
   color: #cbd5e1;
   line-height: 1.7;
   margin-bottom: 1rem;
+}
+
+.details-separator {
+  border: none;
+  border-top: 1px solid rgba(71, 85, 105, 0.5);
+  margin: 0 0 1.25rem 0;
+}
+
+.toggle-details-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #44a2ff;
+  border: none;
+  border-radius: 10rem;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.875rem 1.5rem;
+  box-shadow: 0px 10px 10px rgb(60, 158, 255) inset,
+    0px 5px 10px rgba(5, 5, 5, 0.212),
+    0px -10px 10px rgb(58, 124, 255) inset;
+  transition: all 0.3s ease 0.1s;
+}
+
+.toggle-details-btn:hover {
+  background-color: #4892f3;
+  box-shadow: 0 8px 20px rgba(68, 162, 255, 0.4);
+  animation: jello-boton 0.9s both;
+}
+
+/* Misma idea que el jello de "Ver en GitHub" en Proyectos, pero sobre
+   translateY(-2px) en vez de su translate(-50%, -22px) fijo, porque este
+   botón vive en flujo normal, no está posicionado en absoluto. */
+@keyframes jello-boton {
+  0% { transform: translateY(-2px) scale3d(1, 1, 1); }
+  30% { transform: translateY(-2px) scale3d(1.25, 0.75, 1); }
+  40% { transform: translateY(-2px) scale3d(0.75, 1.25, 1); }
+  50% { transform: translateY(-2px) scale3d(1.15, 0.85, 1); }
+  65% { transform: translateY(-2px) scale3d(0.95, 1.05, 1); }
+  75% { transform: translateY(-2px) scale3d(1.05, 0.95, 1); }
+  100% { transform: translateY(-2px) scale3d(1.05, 1.05, 1); }
+}
+
+.toggle-details-btn .chevron {
+  display: inline-block;
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.toggle-details-btn .chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.card-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.card-details.expanded {
+  max-height: 600px;
+  opacity: 1;
 }
 
 .achievements {
