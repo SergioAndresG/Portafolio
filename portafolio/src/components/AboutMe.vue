@@ -1,44 +1,15 @@
 <script setup lang="ts">
-    import { ref, onMounted, onUnmounted } from 'vue'
+    import { ref } from 'vue'
+    import { useRevealOnScroll } from '../composables/useRevealOnScroll'
 
-    const svgReady = ref(false)
-    const lineWidth = ref(0)
-    const aboutMeVisible = ref(false)
-
-    // Función para manejar el scroll y animar la línea
-    const handleScroll = () => {
-    const scrollPosition = window.scrollY
-    const windowHeight = window.innerHeight
-    
-    // Calcular el ancho de la línea basado en el scroll
-    // La línea crece de 200px a 880px (55rem = 880px)
-    const maxScroll = windowHeight * 0.5 // Crece hasta la mitad de la primera pantalla
-    const progress = Math.min(scrollPosition / maxScroll, 1)
-    lineWidth.value = 200 + (680 * progress) // De 200px a 880px
-    
-    // Detectar si la sección "Sobre Mi" está visible
-    const aboutMeSection = document.querySelector('.about-me-container')
-    if (aboutMeSection) {
-        const rect = aboutMeSection.getBoundingClientRect()
-        aboutMeVisible.value = rect.top < windowHeight * 0.8
-    }
-    }
-
-    onMounted(() => {
-    svgReady.value = true
-    window.addEventListener('scroll', handleScroll)
-    handleScroll() // Llamar una vez al montar
-    })
-
-    onUnmounted(() => {
-      window.removeEventListener('scroll', handleScroll)
-    })
+    const sectionRef = ref(null)
+    const { isVisible: aboutMeVisible } = useRevealOnScroll(sectionRef)
 </script>
 <template>
-  <section class="about-me-container">
+  <section class="about-me-container" ref="sectionRef">
       <!-- Línea animada con scroll -->
       <div class="linea-container"  id="about-me">
-          <hr class="linea-scroll" :style="{ width: lineWidth + 'px' }">
+          <hr class="linea-scroll" :class="{ visible: aboutMeVisible }">
       </div>
       <!-- Header -->
       <div class="header" :class="{ 'visible': aboutMeVisible }">
@@ -77,15 +48,20 @@
 }
 
 .linea-scroll {
+  width: 200px;
   height: 2px;
-  background: linear-gradient(90deg, 
-    rgba(154, 154, 154, 0.2) 0%, 
-    rgba(240, 248, 255, 0.6) 50%, 
+  background: linear-gradient(90deg,
+    rgba(154, 154, 154, 0.2) 0%,
+    rgba(240, 248, 255, 0.6) 50%,
     rgba(154, 154, 154, 0.2) 100%
   );
   border: none;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   max-width: 880px;
+}
+
+.linea-scroll.visible {
+  width: 880px;
 }
 /* === HEADER === */
 .header {

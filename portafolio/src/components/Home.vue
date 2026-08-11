@@ -54,6 +54,9 @@
   margin-left: auto;
   margin-right: auto;
   overflow: hidden; /* Previene overflow */
+  /* 92vh en vez de 100vh: deja una pista de la siguiente sección al fondo (menos scroll
+     "muerto"), sin volver a mostrarla ya revelada — ver rootMargin en useRevealOnScroll. */
+  min-height: calc(92vh - 8rem);
 }
 
 .texto-container {
@@ -278,6 +281,7 @@
   .hero-container {
     gap: 3rem;
     margin-top: 6rem;
+    min-height: calc(92vh - 6rem);
   }
   
   .nombre-outline-svg text {

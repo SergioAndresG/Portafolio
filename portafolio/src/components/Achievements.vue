@@ -1,57 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll'
 
-const svgReady = ref(false)
-const lineWidth = ref(0)
-const achievementVisible = ref(false)
-
-
-// Función para manejar el scroll y animar la línea
-const handleScroll = () => {
-  const offStart = 100
-  const windowHeight = window.innerHeight
-
-  // Detectar si la sección "Stack" está visible
-  const stackSection = document.querySelector('.achievements-section')
-
-  if (stackSection) {
-    const rect = stackSection.getBoundingClientRect()
-
-    achievementVisible.value = rect.top < windowHeight * 0.8
-
-
-    if ((rect.top + offStart) < windowHeight && rect.bottom > 0) {
-      // La seccion esta visible
-      const sectionProgress = Math.max(0, Math.min(1,
-        (windowHeight - rect.top) / (windowHeight * 0.5)
-      ))
-
-      lineWidth.value = 200 + ( 680 * sectionProgress )
-    } else if (rect.top >= windowHeight){
-      lineWidth.value = 0
-    } else {
-      lineWidth.value = 800
-    }
-  }
-}
-
-onMounted(() => {
-  svgReady.value = true
-  window.addEventListener('scroll', handleScroll)
-  handleScroll() // Llamar una vez al montar
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+const sectionRef = ref(null)
+const { isVisible: achievementVisible } = useRevealOnScroll(sectionRef)
 </script>
 
 <template>
-    <section class="achievements-section">
+    <section class="achievements-section" ref="sectionRef">
 
         <!--Linea divisora-->
         <div class="linea-container" id="achievements">
-            <hr class="linea-scroll" :style="{ width:lineWidth + 'px'  }">
+            <hr class="linea-scroll" :class="{ visible: achievementVisible }">
         </div>
 
         <div class="header" :class="{ 'visible': achievementVisible }">
@@ -179,16 +139,20 @@ onUnmounted(() => {
 }
 
 .linea-scroll {
+  width: 200px;
   height: 2px;
-  background: linear-gradient(90deg, 
-    rgba(154, 154, 154, 0.2) 0%, 
-    rgba(240, 248, 255, 0.6) 50%, 
+  background: linear-gradient(90deg,
+    rgba(154, 154, 154, 0.2) 0%,
+    rgba(240, 248, 255, 0.6) 50%,
     rgba(154, 154, 154, 0.2) 100%
   );
   border: none;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   max-width: 880px;
-  width: 100%;
+}
+
+.linea-scroll.visible {
+  width: 880px;
 }
 
 /* Header */

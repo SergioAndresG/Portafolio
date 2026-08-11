@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useRevealOnScroll } from '../composables/useRevealOnScroll'
 
-
-const svgReady = ref(false)
-const lineWidth = ref(0)
-const ExperienceVisible = ref(false)
+const sectionRef = ref(null)
+const { isVisible: ExperienceVisible } = useRevealOnScroll(sectionRef)
 
 const circleProgress = ref(0)
 const timelineHeight = ref(0)
@@ -38,28 +37,9 @@ const experiences = ref([
 ])
 
 const handleScroll = () => {
-  const offStart = 100
   const windowHeight = window.innerHeight
 
-  const experienceSection = document.querySelector('.experience-section')
   const timeline = document.querySelector('.timeline')
-
-  if (experienceSection) {
-    const rect = experienceSection.getBoundingClientRect()
-
-    ExperienceVisible.value = rect.top < windowHeight * 0.8
-
-    if ((rect.top + offStart) < windowHeight && rect.bottom > 0) {
-      const sectionProgress = Math.max(0, Math.min(1,
-        (windowHeight - rect.top) / (windowHeight * 0.5)
-      ))
-      lineWidth.value = 200 + (680 * sectionProgress)
-    } else if (rect.top >= windowHeight) {
-      lineWidth.value = 0
-    } else {
-      lineWidth.value = 800
-    }
-  }
 
   // Calcular posición del círculo
   if (timeline) {
@@ -93,7 +73,6 @@ const handleScroll = () => {
 
 
 onMounted(() => {
-  svgReady.value = true
   window.addEventListener('scroll', handleScroll)
   handleScroll() // Llamar una vez al montar
 })
@@ -104,10 +83,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="experience-section" id="experience">
+  <section class="experience-section" id="experience" ref="sectionRef">
     <!-- Línea divisora -->
     <div class="linea-container">
-      <hr class="linea-scroll" :style="{ width: lineWidth + 'px' }">
+      <hr class="linea-scroll" :class="{ visible: ExperienceVisible }">
     </div>
 
     <!-- Header -->
@@ -210,16 +189,20 @@ onUnmounted(() => {
   padding: 0 2rem;
 }
 .linea-scroll {
+  width: 200px;
   height: 2px;
-  background: linear-gradient(90deg, 
-    rgba(154, 154, 154, 0.2) 0%, 
-    rgba(240, 248, 255, 0.6) 50%, 
+  background: linear-gradient(90deg,
+    rgba(154, 154, 154, 0.2) 0%,
+    rgba(240, 248, 255, 0.6) 50%,
     rgba(154, 154, 154, 0.2) 100%
   );
   border: none;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   max-width: 880px;
-  width: 100%;
+}
+
+.linea-scroll.visible {
+  width: 880px;
 }
 
 /* === EFECTOS DE FONDO === */
