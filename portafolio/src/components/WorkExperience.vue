@@ -16,6 +16,10 @@ const circleTop = computed(() => {
   return startOffset + (circleProgress.value * availableHeight)
 })
 
+const isCurrent = (period) => period.includes('Actualidad')
+
+const agroservicesLogo = new URL('../assets/images/agroservices.png', import.meta.url).href
+
 const experiences = ref([
   {
     position: 'Desarrollador de Sofware',
@@ -33,6 +37,40 @@ const experiences = ref([
       'Extractor de Empresas: Web scraping con validación de datos y generación automática de reportes Excel.',
     ],
     technologies: ['Vue.js', 'FastAPI', 'Python', 'Selenium', 'MySQL', 'JWT']
+  },
+  {
+    position: 'Desarrollador Full Stack Junior',
+    company: 'AGROSERVICES P&D SAS',
+    location: '📍 Madrid, Cundinamarca, Colombia',
+    period: '10/2025 - 06/2026',
+    type: 'project',
+    typeLabel: 'Proyecto',
+    logo: agroservicesLogo,
+    description: 'Participación en proyectos de desarrollo, mantenimiento, automatización y despliegue de software como Desarrollador Full Stack Junior, bajo modalidad de proyectos prácticos y apoyo técnico.',
+    achievements: [
+      'Frontend: interfaces con HTML, CSS, JavaScript, Vue.js y React, consumo de APIs y manejo de formularios; uso inicial de TypeScript.',
+      'Backend: APIs REST con Python y FastAPI, mantenimiento de servicios en Java y funcionalidades básicas en PHP.',
+      'Bases de datos: operaciones CRUD sobre MySQL.',
+      'Despliegue: frontend en Vercel y backend en Railway, separación de entornos y uso básico de Docker.',
+    ],
+    technologies: ['Vue.js', 'React', 'TypeScript', 'Python', 'FastAPI', 'Java', 'PHP', 'MySQL', 'Docker', 'Git']
+  },
+  {
+    position: 'Desarrollador Full Stack',
+    company: 'SENA - Dirección General',
+    location: '📍 Bogotá D.C., Colombia',
+    period: '02/2026 - Actualidad',
+    type: 'project',
+    typeLabel: 'Híbrido',
+    logo: 'https://senaterritorium.com/wp-content/uploads/logo-sena-verde-complementario.webp',
+    description: 'Desarrollador Full Stack a cargo principalmente del frontend del proyecto SIIES (arquitectura de microfrontends federados), con apoyo en backend.',
+    achievements: [
+      'Responsable principal del desarrollo y mantenimiento del frontend del proyecto.',
+      'Microfrontends: integración y documentación del proceso de paso a producción con la aplicación host (frontend federado).',
+      'Dashboards dinámicos para la visualización de metas a nivel nacional del SENA.',
+      'Wireframes para el diseño de nuevas vistas y apoyo puntual en tareas de backend.',
+    ],
+    technologies: ['Vue.js', 'Nuxt', 'Python', 'FastAPI', 'PostgreSQL', 'Microfrontends']
   },
 ])
 
@@ -126,6 +164,7 @@ onUnmounted(() => {
           <!-- Contenido -->
           <div class="timeline-content">
             <span class="timeline-date">{{ exp.period }}</span>
+            <span v-if="isCurrent(exp.period)" class="current-badge">Actualidad</span>
 
             <div class="experience-card">
               <div class="company-logo" v-if="exp.logo">
@@ -252,7 +291,6 @@ onUnmounted(() => {
   margin: 0 auto;
   padding: 0 2rem;
   position: relative;
-  margin-left: 6px;
 }
 /* === HEADER === */
 .header {
@@ -429,6 +467,36 @@ onUnmounted(() => {
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: 1rem;
+}
+
+/* === BADGE ACTUALIDAD === */
+.current-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: 9999px;
+  color: #4ade80;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-left: 0.6rem;
+}
+
+.current-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 /* === CARD DE EXPERIENCIA === */
