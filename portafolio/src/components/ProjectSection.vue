@@ -78,7 +78,7 @@ const projects = ref([
       id: 5,
       title: 'Mi Ser\nTienda de Vinos Artesanales',
       description: 'Catálogo web para "Mi Ser", marca de vinos artesanales elaborados con frutas colombianas en distintos sabores, con pedidos gestionados por WhatsApp.',
-      icon: 'https://i.ibb.co/S4KFvy2K/Captura-de-pantalla-2026-08-11-163614.png"',
+      icon: 'https://i.ibb.co/S4KFvy2K/Captura-de-pantalla-2026-08-11-163614.png',
       techs: ['iconVueJs', 'iconNuxt', 'iconTailwind'],
       color: '#68a063',
       category: 'Full Stack',
